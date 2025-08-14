@@ -10,7 +10,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const images = [];
   let loadedImageCount = 0;
 
-  // Project data với links
   const projectLinks = [
     "https://example.com/project1",
     "https://example.com/project2",
@@ -124,12 +123,10 @@ document.addEventListener("DOMContentLoaded", () => {
       "Project 7",
     ];
 
-    // Variables cho click detection
     const raycaster = new THREE.Raycaster();
     const mouse = new THREE.Vector2();
-    let currentScroll = 0;
+    let currentScroll = 0.4286; // Initialize to center Project 1
 
-    // Click event listener
     function onMouseClick(event) {
       mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
       mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
@@ -141,21 +138,18 @@ document.addEventListener("DOMContentLoaded", () => {
         const intersect = intersects[0];
         const uv = intersect.uv;
 
-        // Tính toán slide nào được click dựa trên UV coordinates
         const normalizedV = (uv.y + currentScroll) % 1;
         if (normalizedV < 0) normalizedV += 1;
 
         const slideIndex = Math.floor(normalizedV * totalSlides);
         const clampedIndex = Math.max(0, Math.min(slideIndex, totalSlides - 1));
 
-        // Mở link trong tab mới
         if (projectLinks[clampedIndex]) {
           window.open(projectLinks[clampedIndex], "_blank");
         }
       }
     }
 
-    // Thêm cursor pointer khi hover
     function onMouseMove(event) {
       mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
       mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
@@ -231,7 +225,6 @@ document.addEventListener("DOMContentLoaded", () => {
           ctx.drawImage(img, drawX, drawY, drawWidth, drawHeight);
           ctx.restore();
 
-          // Thêm background cho title để dễ đọc và tạo cảm giác clickable
           ctx.save();
           ctx.fillStyle = "rgba(0, 0, 0, 0.0)";
           ctx.fillRect(
@@ -269,7 +262,8 @@ document.addEventListener("DOMContentLoaded", () => {
       }, 250);
     });
 
-    updateTexture(0);
+    // Initialize with "Project 1" centered
+    updateTexture(-0.4286);
     renderer.render(scene, camera);
   }
   loadImages();
